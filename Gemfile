@@ -9,7 +9,8 @@ gem 'rails'
 
 # Use unicorn as the web server
 gem 'puma'
-
+gem 'devise'
+gem 'omniauth-facebook'
 gem 'mysql2'
 gem 'rubyzip'
 gem 'zip-zip'
