@@ -5,9 +5,8 @@ class User < ActiveRecord::Base
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :trackable, :validatable
-
-  devise :omniauthable, :omniauth_providers => [:facebook]
+         :recoverable, :rememberable, :trackable, :validatable,
+         :omniauthable, :omniauth_providers => [:facebook]
 
   include Latinize
 
@@ -46,6 +45,27 @@ class User < ActiveRecord::Base
     COACH,
     CONTESTER
   ]
+
+  def self.from_omniauth(auth)
+    pass = Devise.friendly_token[0,20]
+    where(provider: auth.provider, uid: auth.uid).first_or_create do |f|
+      login = auth.info.first_name
+      name = auth.info.name
+      email = auth.info.email
+      city = auth.info.location
+      unencrypted_password = pass
+      unencrypted_password_confirmation = pass
+    end
+  end
+
+  def self.new_with_session(params, session)
+    if session["devise.user_attributes"]
+      new(session["devise.user_attributes"], without_protection: true) do |user|
+      user.attributes = params
+    end
+      super
+    end
+  end
 
   # Authenticates a user by their login name and unencrypted password.  Returns the user or nil.
   #
