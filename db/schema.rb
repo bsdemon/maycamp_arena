@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151204140407) do
+ActiveRecord::Schema.define(version: 20151204224810) do
 
   create_table "categories", force: :cascade do |t|
     t.string   "name",        limit: 255
@@ -184,7 +184,6 @@ ActiveRecord::Schema.define(version: 20151204140407) do
     t.string   "email",                  limit: 255, default: "",          null: false
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "password",               limit: 40,                        null: false
     t.string   "city",                   limit: 255
     t.string   "token",                  limit: 16
     t.string   "role",                   limit: 255, default: "contester", null: false

@@ -48,13 +48,15 @@ class User < ActiveRecord::Base
 
   def self.from_omniauth(auth)
     pass = Devise.friendly_token[0,20]
-    where(provider: auth.provider, uid: auth.uid).first_or_create do |f|
-      login = auth.info.first_name
-      name = auth.info.name
-      email = auth.info.email
-      city = auth.info.location
-      unencrypted_password = pass
-      unencrypted_password_confirmation = pass
+    where(provider: auth.provider, uid: auth.uid).first_or_create do |user|
+      user.provider = auth.provider
+      user.uid = auth.uid
+      user.email = auth.info.email
+      user.name = auth.info.name
+      user.login = "ilko"
+      user.unencrypted_password = "asdasdasdasd"
+      user.city = "Стара Загора"
+      # byebug
     end
   end
 
@@ -62,6 +64,7 @@ class User < ActiveRecord::Base
     if session["devise.user_attributes"]
       new(session["devise.user_attributes"], without_protection: true) do |user|
       user.attributes = params
+      user.valid?
     end
       super
     end
@@ -73,15 +76,15 @@ class User < ActiveRecord::Base
   # We really need a Dispatch Chain here or something.
   # This will also let us return a human error message.
   #
-  def self.authenticate(login, password)
-    user = find_by_login(login.downcase) || find_by_email(login.downcase) # need to get the salt
+  # def self.authenticate(login, password)
+  #   user = find_by_login(login.downcase) || find_by_email(login.downcase) # need to get the salt
 
-    if user and user.password == encrypt_password(password)
-      return user
-    end
+  #   if user and user.password == encrypt_password(password)
+  #     return user
+  #   end
 
-    nil
-  end
+  #   nil
+  # end
 
   def admin?
     self.role == ADMIN

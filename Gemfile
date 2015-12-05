@@ -8,6 +8,7 @@ gem 'rails'
 #gem 'sqlite3-ruby', :require => 'sqlite3'
 
 # Use unicorn as the web server
+gem 'byebug'
 gem 'puma'
 gem 'devise'
 gem 'omniauth-facebook'

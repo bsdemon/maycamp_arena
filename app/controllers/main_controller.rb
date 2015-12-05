@@ -2,8 +2,10 @@
 require 'ostruct'
 
 class MainController < ApplicationController
+  skip_before_action :authenticate_user!
   layout "main", :except => :results
-  before_filter :check_user_profile
+  # before_filter :check_user_profile
+
 
   def index
     @past_contests = Contest.finished.paginate(:page => params.fetch(:past_contest_page, 1), :per_page => 20)
