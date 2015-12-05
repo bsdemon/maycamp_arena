@@ -5,8 +5,11 @@
 bg:
   devise:
     omniauth_callbacks:
-      failure: "Грешка %{kind} because \"%{reason}\"."
-      success: "Успешно %{kind} account."
+      failure: "Грешка %{name} because \"%{reason}\"."
+      success: "Добре дошли %{name} ."
+    sessions:
+      signed_in: "Вие влязохте успешно."
+      signed_out: "Вие излязохте успешно."
   date:
     formats:
       default: "%d.%m.%Y"

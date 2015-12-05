@@ -32,7 +32,7 @@ class SessionsController < ApplicationController
 
   def destroy
     logoff
-    # flash[:notice] = "Вие излязохте успешно от системата."
+    flash[:notice] = "Вие излязохте успешно от системата."
     redirect_to root_path
   end
 end
