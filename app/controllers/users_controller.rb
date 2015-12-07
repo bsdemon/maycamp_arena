@@ -3,6 +3,7 @@
 require 'uri'
 
 class UsersController < ApplicationController
+  before_action :configure_permitted_parameters, if: :devise_controller?
   before_filter :login_required_without_data_check, :only => [:update]
   layout "main"
 
@@ -68,7 +69,7 @@ class UsersController < ApplicationController
 
   def create
     reset_session
-    @user = User.new(params.require(:user).permit(:login, :name, :email, :city))
+    @user = User.new(user_params)
     @user.unencrypted_password = params[:user][:unencrypted_password]
     @user.unencrypted_password_confirmation = params[:user][:unencrypted_password_confirmation]
     if @user.save
@@ -114,5 +115,17 @@ class UsersController < ApplicationController
       @user.errors.add(:password, "не съвпада с потвърждението")
       render :action => "reset_password"
     end
+  end
+
+  protected
+
+  def configure_permitted_parameters
+    devise_parameter_sanitizer.for(:sign_up) { |u| u.permit(
+      :login,
+      :name,
+      :city,
+      :email,
+      :unencrypted_password,
+      :unencrypted_password_confirmation) }
   end
 end

@@ -53,10 +53,8 @@ class User < ActiveRecord::Base
       user.uid = auth.uid
       user.email = auth.info.email
       user.name = auth.info.name
-      user.login = "ilko"
-      user.unencrypted_password = "asdasdasdasd"
-      user.city = "Стара Загора"
-      # byebug
+      user.login = auth.info.first_name
+      user.unencrypted_password = Devise.friendly_token[0,20]
     end
   end
 
@@ -69,22 +67,6 @@ class User < ActiveRecord::Base
       super
     end
   end
-
-  # Authenticates a user by their login name and unencrypted password.  Returns the user or nil.
-  #
-  # uff.  this is really an authorization, not authentication routine.
-  # We really need a Dispatch Chain here or something.
-  # This will also let us return a human error message.
-  #
-  # def self.authenticate(login, password)
-  #   user = find_by_login(login.downcase) || find_by_email(login.downcase) # need to get the salt
-
-  #   if user and user.password == encrypt_password(password)
-  #     return user
-  #   end
-
-  #   nil
-  # end
 
   def admin?
     self.role == ADMIN
