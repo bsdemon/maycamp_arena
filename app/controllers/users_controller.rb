@@ -69,7 +69,7 @@ class UsersController < ApplicationController
 
   def create
     reset_session
-    @user = User.new(user_params)
+    @user = User.new(params.require(:user).permit(:login, :name, :email, :city))
     @user.unencrypted_password = params[:user][:unencrypted_password]
     @user.unencrypted_password_confirmation = params[:user][:unencrypted_password_confirmation]
     if @user.save
