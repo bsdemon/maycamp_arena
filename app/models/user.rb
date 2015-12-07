@@ -53,7 +53,7 @@ class User < ActiveRecord::Base
       user.uid = auth.uid
       user.email = auth.info.email
       user.name = auth.info.name
-      user.login = auth.info.first_name
+      user.login = auth.info.email
       user.unencrypted_password = Devise.friendly_token[0,20]
     end
   end
@@ -61,10 +61,10 @@ class User < ActiveRecord::Base
   def self.new_with_session(params, session)
     if session["devise.user_attributes"]
       new(session["devise.user_attributes"], without_protection: true) do |user|
-      user.attributes = params
-      user.valid?
-      # byebug
-    end
+        user.attributes = params
+        user.valid?
+      end
+    else
       super
     end
   end
