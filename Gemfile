@@ -8,7 +8,6 @@ gem 'rails'
 #gem 'sqlite3-ruby', :require => 'sqlite3'
 
 # Use unicorn as the web server
-gem 'byebug'
 gem 'puma'
 gem 'devise'
 gem 'omniauth-facebook'
@@ -36,6 +35,7 @@ group :production do
 end
 
 group :development do
+  gem 'byebug'
   gem 'spring'
   gem "spring-commands-rspec"
   gem 'sprockets-rails'
