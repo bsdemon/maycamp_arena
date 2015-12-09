@@ -25,7 +25,7 @@ class User < ActiveRecord::Base
 
   validates_presence_of :city
 
-  attr_accessor :unencrypted_password
+  attr_accessor :unencrypted_password, :city
 
   has_many :contest_start_events, :dependent => :destroy
   has_many :runs, :dependent => :destroy
@@ -54,7 +54,6 @@ class User < ActiveRecord::Base
       user.email = auth.info.email
       user.name = auth.info.name
       user.login = auth.info.email
-      user.unencrypted_password = Devise.friendly_token[0,20]
     end
   end
 
@@ -232,6 +231,10 @@ class User < ActiveRecord::Base
 
   def participates_in_contests?
     !self.admin? && self.contester?
+  end
+
+  def password_required?
+    super && provider.blank?
   end
 
   private
