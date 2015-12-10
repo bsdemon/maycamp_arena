@@ -71,7 +71,7 @@ class UsersController < ApplicationController
     @user = User.new(params.require(:user).permit(:login, :name, :email, :city))
     @user.unencrypted_password = params[:user][:unencrypted_password]
     @user.unencrypted_password_confirmation = params[:user][:unencrypted_password_confirmation]
-
+    byebug
     if @user.save
       self.current_user = @user # !! now logged in
       redirect_to root_path
