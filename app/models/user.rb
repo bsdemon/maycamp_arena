@@ -4,9 +4,8 @@ require 'digest/sha1'
 class User < ActiveRecord::Base
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
-  devise :database_authenticatable,
-         :recoverable, :rememberable, :trackable, :validatable,
-         :omniauthable, :omniauth_providers => [:facebook]
+  devise :recoverable, :rememberable, :trackable,
+         :omniauthable, :omniauth_providers => [:facebook] #:database_authenticatable, :validatable,
   include Latinize
 
   validates_presence_of     :login

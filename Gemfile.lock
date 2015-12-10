@@ -44,7 +44,6 @@ GEM
     arel (6.0.0)
     bcrypt (3.1.10)
     builder (3.2.2)
-    byebug (8.2.1)
     capistrano (3.3.5)
       capistrano-stats (~> 1.1.0)
       i18n
@@ -265,7 +264,6 @@ DEPENDENCIES
   SyslogLogger
   airbrake
   andand
-  byebug
   capistrano
   capistrano-bundler
   capistrano-db-tasks
