@@ -3,11 +3,20 @@
 require 'uri'
 
 class UsersController < ApplicationController
+  # before_action :authenticate_user!
   before_filter :login_required_without_data_check, :only => [:update]
   layout "main"
 
   def new
     @user = User.new
+    if data = session["devise.facebook_data"] && session["devise.facebook_data"]["extra"]["raw_info"]
+        @user.email= data["email"]
+        @user.login = data["email"]
+        @user.name= data["name"]
+        @user.provider = "facebook"
+        @user.uid = session["devise.facebook_data"].uid
+    end
+    reset_session
   end
 
   def show
@@ -51,7 +60,6 @@ class UsersController < ApplicationController
 
   def update
     @user = current_user
-
     @user.attributes = params.require(:user).permit(:login, :name, :city, :email)
     if !params[:user][:unencrypted_password].blank?
       @user.unencrypted_password = params[:user][:unencrypted_password]
@@ -68,7 +76,7 @@ class UsersController < ApplicationController
 
   def create
     reset_session
-    @user = User.new(params.require(:user).permit(:login, :name, :email, :city))
+    @user = User.new(params.require(:user).permit(:login, :name, :email, :city, :provider, :uid))
     @user.unencrypted_password = params[:user][:unencrypted_password]
     @user.unencrypted_password_confirmation = params[:user][:unencrypted_password_confirmation]
 

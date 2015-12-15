@@ -35,6 +35,7 @@ group :production do
 end
 
 group :development do
+  gem 'byebug'
   gem 'spring'
   gem "spring-commands-rspec"
   gem 'sprockets-rails'

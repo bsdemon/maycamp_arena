@@ -27,3 +27,15 @@
     <%= f.label :unencrypted_password_confirmation, 'Потвърди паролата:' %>
     <%= f.password_field :unencrypted_password_confirmation %>
 </p>
+<p>
+    <% if f.object.provider? %>
+        <%= f.label :provider, 'PROVIDER:' %>
+        <%= f.text_field :provider %>
+    <% end %>
+</p>
+<p>
+    <% if f.object.uid? %>
+        <%= f.label :uid, 'UID:' %>
+        <%= f.text_field :uid %>
+    <% end %>
+</p>

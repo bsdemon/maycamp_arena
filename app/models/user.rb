@@ -23,7 +23,7 @@ class User < ActiveRecord::Base
 
   validates_presence_of :city
 
-  attr_accessor :unencrypted_password
+  attr_accessor :unencrypted_password, :provider, :uid
 
   has_many :contest_start_events, :dependent => :destroy
   has_many :runs, :dependent => :destroy
@@ -60,7 +60,6 @@ class User < ActiveRecord::Base
   #
   def self.authenticate(login, password)
     user = find_by_login(login.downcase) || find_by_email(login.downcase) # need to get the salt
-
     if user and user.password == encrypt_password(password)
       return user
     end
@@ -86,6 +85,14 @@ class User < ActiveRecord::Base
 
   def email=(value)
     write_attribute :email, (value ? value.downcase : nil)
+  end
+
+  def provider=(value)
+    write_attribute :provider, (value ? value.downcase : nil)
+  end
+
+  def uid=(value)
+    write_attribute :uid, (value ? value.downcase : nil)
   end
 
   def best_practice_score(contest)
